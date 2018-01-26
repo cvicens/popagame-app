@@ -1,0 +1,25 @@
+PODS:
+  - AeroGear-Push (1.2.0)
+  - FH (3.1.1):
+    - AeroGear-Push (= 1.2.0)
+    - Reachability (= 3.2)
+  - RCTFH (0.1.0):
+    - FH (~> 3.1.1)
+  - Reachability (3.2)
+
+DEPENDENCIES:
+  - RCTFH (from `../node_modules/rct-fh`)
+
+EXTERNAL SOURCES:
+  RCTFH:
+    :path: ../node_modules/rct-fh
+
+SPEC CHECKSUMS:
+  AeroGear-Push: 02104f3ec9fc42dd328497ecfbcc8bb6ade0700f
+  FH: 33353448996384a4c05626b8a42ac7ebee75bdc5
+  RCTFH: e3e26032d0f3d340289b39f4be9da6188dc38805
+  Reachability: 33e18b67625424e47b6cde6d202dce689ad7af96
+
+PODFILE CHECKSUM: 4fe470a28b08c7859702e3936eb5ac59fd9764b8
+
+COCOAPODS: 1.3.1

@@ -1,0 +1,6 @@
+framework module Pods_PopagameApp {
+  umbrella header "Pods-PopagameApp-umbrella.h"
+
+  export *
+  module * { export * }
+}

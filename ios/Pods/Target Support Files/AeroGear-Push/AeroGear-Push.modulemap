@@ -1,0 +1,6 @@
+framework module AeroGear_Push {
+  umbrella header "AeroGear-Push-umbrella.h"
+
+  export *
+  module * { export * }
+}

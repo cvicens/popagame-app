@@ -1,0 +1,24 @@
+{
+  "name": "RCTFH",
+  "authors": {
+    "Carlos Vicens": "cvicensa@redhat.com"
+  },
+  "version": "0.1.0",
+  "summary": "Native...",
+  "license": "MIT",
+  "homepage": "https://github.com/johndoe/nothing",
+  "source": {
+    "git": "https://github.com/johndoe/nothing/rctfh.git",
+    "tag": "0.1.0"
+  },
+  "requires_arc": true,
+  "source_files": "./**/*.{m,h,mm,hpp,cpp,c}",
+  "platforms": {
+    "ios": "7.0"
+  },
+  "dependencies": {
+    "FH": [
+      "~> 3.1.1"
+    ]
+  }
+}

@@ -11,6 +11,10 @@ const ApplicationStyles = {
       flex: 1,
       backgroundColor: Colors.transparent
     },
+    mainContainerSolid: {
+      flex: 1,
+      backgroundColor: Colors.leroy
+    },
     backgroundImage: {
       position: 'absolute',
       top: 0,

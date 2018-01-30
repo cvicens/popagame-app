@@ -1,0 +1,46 @@
+import { call, put } from 'redux-saga/effects'
+import { path } from 'ramda'
+import LoginActions from '../Redux/LoginRedux'
+
+const RCTFH = require('rct-fh');
+
+// exported to make available for tests
+export const generateLogData = (state) => state
+
+function _log(message) {
+   if (__DEV__ && console.tron) {
+    console.tron.log(message);
+  }
+}
+
+export function * authenticate (action) {
+  const { username, password } = action
+
+   if (__DEV__ && console.tron) {
+      console.tron.display({
+      name: '🔥 LoginSagas 🔥',
+        preview: 'authenticate',
+        value: {
+          action,
+          username, password
+        }
+      });
+   }
+
+  try {
+    const result = yield call(RCTFH.auth, authPolicy, username, password);
+    _log('fetch result', result);
+
+    //if (result && typeof result.sessionToken !== 'undefined') {
+    if (result) {
+      _log('about to yield success')
+      yield put(LoginActions.authenticateSuccess(result));
+    } else {
+      _log('about to yield failure')
+      yield put(LoginActions.authenticateFailure(result));
+    }
+  } catch (e) {
+    _log('about to yield failure (exception)')
+    yield put(LoginActions.authenticateFailure(e));
+  }
+}

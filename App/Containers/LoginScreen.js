@@ -1,5 +1,7 @@
 import React, { Component } from 'react'
-import { ScrollView, Text, TextInput, Image, View, KeyboardAvoidingView } from 'react-native'
+import { ScrollView, Text, TextInput, Button, Image, View, KeyboardAvoidingView } from 'react-native'
+import { Colors } from '../Themes/'
+import GenericButton from '../Components/GenericButton'
 import { Images } from '../Themes'
 import { connect } from 'react-redux'
 
@@ -10,9 +12,20 @@ import LoginActions, { updateUsername } from '../Redux/LoginRedux'
 import styles from './Styles/LoginScreenStyle'
 
 class LoginScreen extends Component {
+  renderError () {
+    return (
+      <Text style={styles.sectionText}>
+        {'ERROR? ' + this.props.error}
+      </Text>
+    )
+  }
+
   render () {
     console.log('🎥 LoginScreen render ', this.props, JSON.stringify(new Date()), '🎬');
 
+    const editable = !this.props.fetching;
+    const textInputStyle = editable ? styles.textInput : styles.textInputReadonly;
+    const buttonStyle = editable ? styles.button : styles.buttonDisabled;
     return (
       <View style={styles.mainContainerSolid}>
         
@@ -22,23 +35,47 @@ class LoginScreen extends Component {
           </View>
 
           <View style={styles.section} >
-            <TextInput
-              style={{height: 40, borderColor: 'gray', borderWidth: 1}}
-              placeholder={'Username'}
-              value={this.props.username === null ? '' : this.props.username}
-              onChangeText={(username) => this.props.updateUsername(username)}
+            <View style={styles.row}>
+              <TextInput
+                ref='username'
+                style={textInputStyle}
+                value={this.props.username === null ? '' : this.props.username}
+                editable={editable}
+                keyboardType='default'
+                returnKeyType='next'
+                autoCapitalize='none'
+                autoCorrect={false}
+                onChangeText={(username) => this.props.updateUsername(username)}
+                underlineColorAndroid='transparent'
+                onSubmitEditing={() => this.refs.password.focus()}
+                placeholder='Username' />
+            </View>
+            
+            <View style={styles.row}>
+              <TextInput
+                ref='password'
+                style={textInputStyle}
+                value={this.props.password === null ? '' : this.props.password}
+                editable={editable}
+                keyboardType='default'
+                returnKeyType='go'
+                autoCapitalize='none'
+                autoCorrect={false}
+                secureTextEntry
+                onChangeText={(password) => this.props.updatePassword(password)}
+                underlineColorAndroid='transparent'
+                onSubmitEditing={() => this.props.authenticate(this.props.username, this.props.password)}
+                placeholder='Password' />
+            </View>
 
-            />
-            <TextInput
-              style={{height: 40, borderColor: 'gray', borderWidth: 1}}
-              placeholder={'Password'}
-              value={this.props.password === null ? '' : this.props.password}
-              onChangeText={(password) => this.props.updatePassword(password)}
-            />
+            <View style={styles.row}>
+              <Button 
+                color={Colors.coal}
+                title={'LOGIN'}
+                onPress={(e) => this.props.authenticate(this.props.username, this.props.password)}/>
+            </View>
 
-            <Text style={styles.sectionText}>
-              This  isn't what your appX is going to look like. Unless your designer handed you this screen and, in that case, congrats! You're ready to ship. For everyone else, this is where you'll see a live preview of your fully functioning app using Ignite.
-            </Text>
+            {this.props.error ? this.renderError() : null}
           </View>
 
         </ScrollView>

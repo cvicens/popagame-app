@@ -1,6 +1,7 @@
 const colors = {
   leroy: '#6bbc36',
   background: '#1F0808',
+  textBackground: '#E0D7E5',
   clear: 'rgba(0,0,0,0)',
   facebook: '#3b5998',
   transparent: 'rgba(0,0,0,0)',

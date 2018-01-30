@@ -4,6 +4,8 @@ import LoginActions from '../Redux/LoginRedux'
 
 const RCTFH = require('rct-fh');
 
+const AUTH_POLICY = 'PopaGame';
+
 // exported to make available for tests
 export const generateLogData = (state) => state
 
@@ -28,7 +30,7 @@ export function * authenticate (action) {
    }
 
   try {
-    const result = yield call(RCTFH.auth, authPolicy, username, password);
+    const result = yield call(RCTFH.auth, AUTH_POLICY, username, password);
     _log('fetch result', result);
 
     //if (result && typeof result.sessionToken !== 'undefined') {

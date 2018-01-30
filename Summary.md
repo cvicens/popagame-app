@@ -1,4 +1,7 @@
 
+Notes:
+- react-native link doesn't work for rct-fh if RN 0.50 you need to do it manually... https://facebook.github.io/react-native/docs/linking-libraries-ios.html#manual-linking
+
 
 1. Es una aplicación que utilizamos en eventos, 
 2. consiste en una serie de preguntas con 2, 3 o 4 respuestas a elegir de las que una es la correcta. 

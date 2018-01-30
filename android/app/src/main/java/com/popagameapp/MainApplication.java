@@ -3,9 +3,9 @@ package com.popagameapp;
 import android.app.Application;
 
 import com.facebook.react.ReactApplication;
+import com.digitallyincorrect.RCTFH.RCTFHPackage;
 import com.oblador.vectoricons.VectorIconsPackage;
 import com.lugg.ReactNativeConfig.ReactNativeConfigPackage;
-import com.digitallyincorrect.RCTFH.RCTFHPackage;
 import com.i18n.reactnativei18n.ReactNativeI18n;
 import com.facebook.react.ReactNativeHost;
 import com.facebook.react.ReactPackage;
@@ -27,9 +27,9 @@ public class MainApplication extends Application implements ReactApplication {
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(
           new MainReactPackage(),
+            new RCTFHPackage(),
             new VectorIconsPackage(),
             new ReactNativeConfigPackage(),
-            new RCTFHPackage(),
             new ReactNativeI18n()
       );
     }

@@ -6,11 +6,13 @@ import DebugConfig from '../Config/DebugConfig'
 /* ------------- Types ------------- */
 
 import { StartupTypes } from '../Redux/StartupRedux'
+import { InitTypes } from '../Redux/InitRedux'
 import { GithubTypes } from '../Redux/GithubRedux'
 
 /* ------------- Sagas ------------- */
 
 import { startup } from './StartupSagas'
+import { init } from './InitSagas'
 import { getUserAvatar } from './GithubSagas'
 
 /* ------------- API ------------- */
@@ -25,6 +27,7 @@ export default function * root () {
   yield all([
     // some sagas only receive an action
     takeLatest(StartupTypes.STARTUP, startup),
+    takeLatest(InitTypes.INIT_REQUEST, init),
 
     // some sagas receive extra parameters in addition to an action
     takeLatest(GithubTypes.USER_REQUEST, getUserAvatar, api)

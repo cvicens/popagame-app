@@ -137,9 +137,9 @@ android {
 }
 
 dependencies {
+    compile project(':rct-fh')
     compile project(':react-native-vector-icons')
     compile project(':react-native-config')
-    compile project(':rct-fh')
     compile project(':react-native-i18n')
     compile fileTree(dir: "libs", include: ["*.jar"])
     compile "com.android.support:appcompat-v7:23.0.1"

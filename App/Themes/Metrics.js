@@ -1,4 +1,4 @@
-import {Dimensions, Platform} from 'react-native'
+import {Dimensions, Platform, StatusBar } from 'react-native'
 
 const { width, height } = Dimensions.get('window')
 
@@ -28,7 +28,9 @@ const metrics = {
     medium: 40,
     large: 60,
     logo: 200
-  }
+  },
+  statusbarHeight: Platform.OS === 'ios' ? 20 : StatusBar.currentHeight,
+  appbarHeight: Platform.OS === 'ios' ? 44 : 56
 }
 
 export default metrics

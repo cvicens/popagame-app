@@ -2,6 +2,7 @@
 const images = {
   logo: require('../Images/ir.png'),
   popagame: require('../Images/popagame.png'),
+  leroyLogo: require('../Images/leroy-logo.png'),
   clearLogo: require('../Images/top_logo.png'),
   launch: require('../Images/launch-icon.png'),
   ready: require('../Images/your-app.png'),

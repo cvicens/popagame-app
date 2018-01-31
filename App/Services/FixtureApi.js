@@ -20,5 +20,13 @@ export default {
       ok: true,
       data: username.toLowerCase() === 'gantman' ? gantmanData : skellockData
     }
+  },
+  fetchEvent: (country, city) => {
+    return new Promise((resolve, reject) => {
+      resolve ({
+        ok: true,
+        data: require('../Fixtures/events.json')
+      });
+    });
   }
 }

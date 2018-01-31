@@ -14,7 +14,8 @@ const { Types, Creators } = createActions({
   authenticateSuccess: ['result'],
   authenticateFailure: ['errorMessage'],
   updateUsername: ['username'],
-  updatePassword: ['password']
+  updatePassword: ['password'],
+  toggleModal: null
 })
 
 export const LoginTypes = Types
@@ -69,6 +70,7 @@ export const success = (state, action) => {
   return state.merge({ 
     fetching: false, error: false, 
     result,
+    showModal: true,
     errorMessage: null, errorDescription: null, errorReason: null, errorRecoverySuggestion: null });
 }
 
@@ -86,6 +88,12 @@ export const failure = (state, action) => {
     errorMessage, errorDescription, errorReason, errorRecoverySuggestion });
 }
 
+// toggle Modal
+export const toggleModal = (state, action) => {
+  _log('At LoginRedux: toggleModal action ' + action + ' state' + state);
+  return state.merge({ showModal: !state.showModal });
+}
+
 /* ------------- Hookup Reducers To Types ------------- */
 
 export const reducer = createReducer(INITIAL_STATE, {
@@ -94,4 +102,5 @@ export const reducer = createReducer(INITIAL_STATE, {
   [Types.AUTHENTICATE_FAILURE]: failure,
   [Types.UPDATE_USERNAME]: updateUsername,
   [Types.UPDATE_PASSWORD]: updatePassword,
+  [Types.TOGGLE_MODAL]: toggleModal
 })

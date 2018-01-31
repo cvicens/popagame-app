@@ -1,17 +1,23 @@
 import React, { Component } from 'react'
-import { ScrollView, Text, TextInput, Button, Image, View, KeyboardAvoidingView } from 'react-native'
+import { ScrollView, Text, TextInput, Button, Image, View, Modal, KeyboardAvoidingView } from 'react-native'
 import { Colors } from '../Themes/'
 import GenericButton from '../Components/GenericButton'
 import { Images } from '../Themes'
 import { connect } from 'react-redux'
 
+import EventScreen from './EventScreen'
+
 // Add Actions - replace 'Your' with whatever your reducer is called :)
-import LoginActions, { updateUsername } from '../Redux/LoginRedux'
+import LoginActions from '../Redux/LoginRedux'
 
 // Styles
 import styles from './Styles/LoginScreenStyle'
 
 class LoginScreen extends Component {
+  toggleModal = () => {
+    this.props.toggleModal();
+  }
+
   renderError () {
     return (
       <Text style={styles.sectionText}>
@@ -71,7 +77,7 @@ class LoginScreen extends Component {
             <View style={styles.row}>
               <Button 
                 color={Colors.coal}
-                title={'LOGIN'}
+                title={'ENTRAR'}
                 onPress={(e) => this.props.authenticate(this.props.username, this.props.password)}/>
             </View>
 
@@ -79,6 +85,16 @@ class LoginScreen extends Component {
           </View>
 
         </ScrollView>
+
+        <Modal
+          presentationStyle={'pageSheet'}
+          visible={this.props != null && this.props.showModal}
+          //onRequestClose={this.toggleModal}
+          >
+
+          <EventScreen screenProps={{ toggle: this.toggleModal }} />
+
+        </Modal>
       </View>
     )
   }
@@ -91,6 +107,7 @@ const mapStateToProps = (state) => {
     fetching: state.login.fetching,
     error: state.login.error,
     result: state.login.result,
+    showModal: state.login.showModal,
     errorMessage: state.login.errorMessage,
     errorReason: state.login.errorReason,
     errorDescription: state.login.errorDescription,
@@ -103,7 +120,8 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => ({
   updateUsername: (username) => dispatch(LoginActions.updateUsername(username)),
   updatePassword: (password) => dispatch(LoginActions.updatePassword(password)),
-  authenticate: (username, password) => dispatch(LoginActions.authenticateRequest(username, password))
+  authenticate: (username, password) => dispatch(LoginActions.authenticateRequest(username, password)),
+  toggleModal: () => dispatch(LoginActions.toggleModal()),
 })
 
 

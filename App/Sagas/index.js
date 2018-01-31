@@ -8,17 +8,17 @@ import DebugConfig from '../Config/DebugConfig'
 import { StartupTypes } from '../Redux/StartupRedux'
 import { InitTypes }    from '../Redux/InitRedux'
 import { LoginTypes }   from '../Redux/LoginRedux'
+import { EventTypes }   from '../Redux/EventRedux'
 import { GithubTypes }  from '../Redux/GithubRedux'
 
 /* ------------- Sagas ------------- */
 
 import { startup } from './StartupSagas'
 import { init }    from './InitSagas'
+import { fetchEvent }    from './EventSagas'
 import { authenticate }   from './LoginSagas'
 
 import { getUserAvatar } from './GithubSagas'
-
-/* ------------- API ------------- */
 
 // The API we use is only used from Sagas, so we create it here and pass along
 // to the sagas which need it.
@@ -30,8 +30,10 @@ export default function * root () {
   yield all([
     // some sagas only receive an action
     takeLatest(StartupTypes.STARTUP, startup),
+    
     takeLatest(InitTypes.INIT_REQUEST, init),
     takeLatest(LoginTypes.AUTHENTICATE_REQUEST, authenticate),
+    takeLatest(EventTypes.FETCH_EVENT_REQUEST, fetchEvent),
 
     // some sagas receive extra parameters in addition to an action
     takeLatest(GithubTypes.USER_REQUEST, getUserAvatar, api)

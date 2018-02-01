@@ -1,5 +1,5 @@
 import { StyleSheet } from 'react-native'
-import { Metrics, ApplicationStyles, Colors } from '../../Themes/'
+import { Metrics, ApplicationStyles, Colors, Fonts } from '../../Themes/'
 
 export default StyleSheet.create({
   ...ApplicationStyles.screen,
@@ -19,13 +19,13 @@ export default StyleSheet.create({
   instructionsHeaderText: {
     fontSize: 20,
     fontWeight: 'bold',
-    color: Colors.charcoal,
+    color: Colors.coal,
     textAlign: 'left'
   },
   instructionsText: {
     fontSize: 16,
     paddingTop: Metrics.doubleBaseMargin / 3,
-    color: Colors.charcoal,
+    color: Colors.coal,
     marginVertical: Metrics.smallMargin,
     textAlign: 'justify'
   },
@@ -46,6 +46,28 @@ export default StyleSheet.create({
     paddingVertical: Metrics.doubleBaseMargin / 3,
     paddingHorizontal: Metrics.doubleBaseMargin
   },
+  buttonRow: {
+    paddingVertical: Metrics.doubleBaseMargin / 3,
+    paddingHorizontal: Metrics.doubleBaseMargin,
+    alignItems: 'center'
+  },
+  startButtonStyle: {
+    //flex: 1,
+    height: 110,
+    borderRadius: 110,
+    width: 110,
+    //marginHorizontal: Metrics.section,
+    //marginVertical: Metrics.baseMargin,
+    backgroundColor: Colors.leroyBlue,
+    justifyContent: 'center'
+  },
+  startButtonText: {
+    color: Colors.snow,
+    textAlign: 'center',
+    fontWeight: 'bold',
+    fontSize: Fonts.size.medium,
+    marginVertical: Metrics.baseMargin
+  },
   button: {
     height: 40,
     borderColor: Colors.text,
@@ -64,7 +86,7 @@ export default StyleSheet.create({
   bannerContainer: {
     height: 110,
     backgroundColor: Colors.leroy,
-    paddingLeft: 40,
+    paddingLeft: 35,
     paddingTop: Metrics.statusbarHeight
   },
   banner: {
@@ -85,14 +107,14 @@ export default StyleSheet.create({
     flexDirection: 'column',
   },
   bannerTitle: {
-    fontSize: 20,
+    fontSize: 22,
     fontWeight: 'bold',
     color: Colors.white,
     //marginTop: Metrics.statusbarHeight,
   },
   bannerSubtitle: {
-    fontSize: 15,
-    fontWeight: 'normal',
+    fontSize: 18,
+    fontWeight: 'bold',
     color: Colors.white,
     //marginTop: 5,
   },

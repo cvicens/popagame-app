@@ -1,8 +1,11 @@
 import React, { Component } from 'react'
-import { ScrollView, Text, TextInput, Button, Image, View, KeyboardAvoidingView, TouchableOpacity } from 'react-native'
-import { Colors } from '../Themes/'
+import { ScrollView, Text, TextInput, Button, Image, View, KeyboardAvoidingView, TouchableOpacity, TouchableWithoutFeedback } from 'react-native'
+import { Colors, Images } from '../Themes/'
 import GenericButton from '../Components/GenericButton'
-import { Images } from '../Themes'
+import ActionButton from '../Components/ActionButton'
+
+import * as Animatable from 'react-native-animatable'
+
 import { connect } from 'react-redux'
 
 // Add Actions - replace 'Your' with whatever your reducer is called :)
@@ -95,11 +98,11 @@ class EventScreen extends Component {
               {INSTRUCCIONES[2]}
             </Text>
 
-            <View style={styles.row}>
-              <Button 
-                color={Colors.coal}
-                title={'COMENZAR'}
-                onPress={(e) => this.props.fetchEvent(COUNTRY, CITY)}/>
+            <View style={styles.buttonRow}>
+              <ActionButton buttonStyle={styles.startButtonStyle} textStyle={styles.startButtonText}
+                onPress={(e) => this.props.fetchEvent(COUNTRY, CITY)}>
+              {'COMENZAR'}
+              </ActionButton>
             </View>
 
           </View>

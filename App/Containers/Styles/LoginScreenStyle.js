@@ -31,6 +31,7 @@ export default StyleSheet.create({
   textInputReadonly: {
     height: 40,
     borderColor: Colors.text,
+    borderRadius: 5,
     borderWidth: 1,
     backgroundColor: Colors.textBackground,
     color: Colors.steel,

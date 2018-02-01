@@ -12,6 +12,7 @@ export default StyleSheet.create({
   },
   buttonText: {
     color: Colors.snow,
+    backgroundColor: Colors.transparent,
     textAlign: 'center',
     fontWeight: 'bold',
     fontSize: Fonts.size.medium,

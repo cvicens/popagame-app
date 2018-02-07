@@ -1,12 +1,12 @@
 import React, { Component } from 'react'
-import { ScrollView, Text, TextInput, Button, Image, View, KeyboardAvoidingView, TouchableOpacity, TouchableWithoutFeedback } from 'react-native'
+import { ScrollView, Text, TextInput, Button, Image, View, Modal, KeyboardAvoidingView, TouchableOpacity, TouchableWithoutFeedback } from 'react-native'
 import { Colors, Images } from '../Themes/'
-import GenericButton from '../Components/GenericButton'
+
 import ActionButton from '../Components/ActionButton'
 
-import * as Animatable from 'react-native-animatable'
-
 import { connect } from 'react-redux'
+
+import QuizScreen from './QuizScreen'
 
 // Add Actions - replace 'Your' with whatever your reducer is called :)
 import EventActions from '../Redux/EventRedux'
@@ -30,22 +30,20 @@ class EventScreen extends Component {
     this.props.fetchEvent(COUNTRY, CITY);
   }
 
-  renderError () {
-    return (
-      <Text style={styles.sectionText}>
-        {'ERROR? ' + this.props.error}
-      </Text>
-    )
+  startQuiz () {
+    this.props.startQuiz();
+    this.props.navigation.navigate('QuizScreen');
+  }
+
+  onClose () {
+    if (this.props.screenProps && this.props.screenProps.toggle) {
+      this.props.screenProps.toggle();
+    } else {
+      this.props.navigation.goBack();
+    }
   }
 
   render () {
-    var __onPress = null;
-    if (_DEBUG) {
-      __onPress = '';
-    } else {
-      __onPress = this.props.screenProps.toggle;
-    }
-
     console.log('🎥 EventScreen render ', this.props, JSON.stringify(new Date()), '🎬');
 
     const editable = !this.props.fetching;
@@ -54,7 +52,7 @@ class EventScreen extends Component {
     return (
       <View style={styles.mainContainerSolid}>
         
-        <TouchableOpacity onPress={__onPress} style={{
+        <TouchableOpacity onPress={() => this.onClose()} style={{
           position: 'absolute',
           paddingTop: 30,
           paddingHorizontal: 10,
@@ -84,7 +82,7 @@ class EventScreen extends Component {
           <View style={styles.instructionsSection} >
             <View style={styles.instructionsHeader} >
               <Text style={styles.instructionsHeaderText}>
-                {'Instrucciones'}
+                {'Instrucciones ' + (typeof this.props.event.data === 'undefined' || this.props.event.data.length <= 0)}
               </Text>
             </View>
 
@@ -99,13 +97,18 @@ class EventScreen extends Component {
             </Text>
 
             <View style={styles.buttonRow}>
-              <ActionButton buttonStyle={styles.startButtonStyle} textStyle={styles.startButtonText}
-                onPress={(e) => this.props.fetchEvent(COUNTRY, CITY)}>
+              <ActionButton 
+                disabled={(typeof this.props.event.data === 'undefined' || this.props.event.data.length <= 0)} 
+                buttonStyle={styles.startButtonStyle}
+                textStyle={styles.startButtonText}
+                onPress={(e) => this.startQuiz()}>
               {'COMENZAR'}
               </ActionButton>
             </View>
 
           </View>
+
+       
 
         </ScrollView>
       </View>
@@ -113,13 +116,21 @@ class EventScreen extends Component {
   }
 }
 
+/*<Modal
+presentationStyle={'pageSheet'}
+visible={this.props != null && this.props.showModal}
+>
+<QuizScreen screenProps={{ toggle: this.toggleModal }} />
+</Modal>*/
+
 const mapStateToProps = (state) => {
   return {
     userGivenName: state.login.result ? state.login.result.givenName : 'NO_USER',
 
     fetching: state.event.fetching,
     error: state.event.error,
-    result: state.event.result,
+    event: state.event.result,
+    showModal: state.event.showModal,
     errorMessage: state.event.errorMessage,
     errorReason: state.event.errorReason,
     errorDescription: state.event.errorDescription,
@@ -130,8 +141,8 @@ const mapStateToProps = (state) => {
 
 // wraps dispatch to create nicer functions to call within our component
 const mapDispatchToProps = (dispatch) => ({
-  fetchEvent: (country, city) => dispatch(EventActions.fetchEventRequest(country, city))
+  fetchEvent: (country, city) => dispatch(EventActions.fetchEventRequest(country, city)),
+  startQuiz: () => dispatch(EventActions.toggleModalQuiz()),
 })
-
 
 export default connect(mapStateToProps, mapDispatchToProps)(EventScreen)

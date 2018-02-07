@@ -15,7 +15,7 @@ const { Types, Creators } = createActions({
   authenticateFailure: ['errorMessage'],
   updateUsername: ['username'],
   updatePassword: ['password'],
-  toggleModal: null
+  toggleModalEvent: null
 })
 
 export const LoginTypes = Types
@@ -40,14 +40,14 @@ export const INITIAL_STATE = Immutable({
 
 // update username
 export const updateUsername = (state, action) => {
-  _log('At LoginRedux: updateUsername');
+  //_log('At LoginRedux: updateUsername');
   const { username } = action;
   return state.merge({ username });
 }
 
 // update password
 export const updatePassword = (state, action) => {
-  _log('At LoginRedux: updatePassword');
+  //_log('At LoginRedux: updatePassword');
   const { password } = action;
   return state.merge({ password });
 }
@@ -102,5 +102,5 @@ export const reducer = createReducer(INITIAL_STATE, {
   [Types.AUTHENTICATE_FAILURE]: failure,
   [Types.UPDATE_USERNAME]: updateUsername,
   [Types.UPDATE_PASSWORD]: updatePassword,
-  [Types.TOGGLE_MODAL]: toggleModal
+  [Types.TOGGLE_MODAL_EVENT]: toggleModal
 })

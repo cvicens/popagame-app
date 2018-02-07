@@ -27,7 +27,7 @@ class LoginScreen extends Component {
   }
 
   render () {
-    console.log('🎥 LoginScreen render ', this.props, JSON.stringify(new Date()), '🎬');
+    //console.log('🎥 LoginScreen render ', this.props, JSON.stringify(new Date()), '🎬');
 
     const editable = !this.props.fetching;
     const textInputStyle = editable ? styles.textInput : styles.textInputReadonly;
@@ -86,7 +86,14 @@ class LoginScreen extends Component {
 
         </ScrollView>
 
-        <Modal
+        
+      </View>
+    )
+  }
+}
+
+/*
+<Modal
           presentationStyle={'pageSheet'}
           visible={this.props != null && this.props.showModal}
           //onRequestClose={this.toggleModal}
@@ -95,10 +102,7 @@ class LoginScreen extends Component {
           <EventScreen screenProps={{ toggle: this.toggleModal }} />
 
         </Modal>
-      </View>
-    )
-  }
-}
+*/
 
 const mapStateToProps = (state) => {
   return {
@@ -121,7 +125,7 @@ const mapDispatchToProps = (dispatch) => ({
   updateUsername: (username) => dispatch(LoginActions.updateUsername(username)),
   updatePassword: (password) => dispatch(LoginActions.updatePassword(password)),
   authenticate: (username, password) => dispatch(LoginActions.authenticateRequest(username, password)),
-  toggleModal: () => dispatch(LoginActions.toggleModal()),
+  toggleModal: () => dispatch(LoginActions.toggleModalEvent()),
 })
 
 

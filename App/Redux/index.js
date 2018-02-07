@@ -12,6 +12,7 @@ export const reducers = combineReducers({
   init:   require('./InitRedux').reducer,
   login:   require('./LoginRedux').reducer,
   event:   require('./EventRedux').reducer,
+  quiz:   require('./QuizRedux').reducer,
 })
 
 export default () => {

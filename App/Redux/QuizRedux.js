@@ -10,13 +10,15 @@ function _log(message) {
 /* ------------- Types and Action Creators ------------- */
 
 const { Types, Creators } = createActions({
-  fetchEventRequest: ['country', 'city'],
-  fetchEventSuccess: ['result'],
-  fetchEventFailure: ['errorMessage'],
-  toggleModalQuiz: null
+  startQuiz: null,
+  pushAnswer: ['answer'],
+  submitAnswersRequest: ['username', 'answers'],
+  submitAnswersSuccess: ['result'],
+  submitAnswersFailure: ['errorMessage'],
+  toggleModal: null
 })
 
-export const EventTypes = Types
+export const QuizTypes = Types
 export default Creators
 
 /* ------------- Initial State ------------- */
@@ -25,8 +27,10 @@ export const INITIAL_STATE = Immutable({
   fetching: null,
   error: null,
   result: null,
-  country: null,
-  city: null,
+  startTimestamp: null,
+  currentQuestion: null,
+  questions: null,
+  answers: null,
   showModal: false,
   errorMessage: null,
   errorReason: null,
@@ -36,14 +40,40 @@ export const INITIAL_STATE = Immutable({
 
 /* ------------- Reducers ------------- */
 
-// fetch event request
+// start quiz
+export const startQuiz = (state, action) => {
+  _log('At QuizRedux: start');
+  _log('At QuizRedux: start action ' + action + ' state' + state);
+  return state.merge({ 
+    currentQuestion: 0,
+    startTimestamp: new Date().toISOString()
+  });
+}
+
+// next question quiz
+export const pushAnswer = (state, action) => {
+  _log('At QuizRedux: start');
+  const { answer } = action;
+  _log('At QuizRedux: start action ' + action + ' state' + state);
+
+  if (!state.startTimestamp) {
+    return state.merge({});
+  }
+
+  return state.merge({ 
+    currentQuestion: state.currentQuestion++,
+    answers: [...state.answers, answer]
+  });
+}
+
+// submit quiz answers request
 export const request = (state, action) => {
-  _log('At EventRedux: request');
-  const { country, city } = action;
-  _log('At EventRedux: request action ' + action + ' state' + state);
+  _log('At QuizRedux: request');
+  const { answers } = action;
+  _log('At QuizRedux: request action ' + action + ' state' + state);
   return state.merge({ 
     fetching: true, 
-    result: [], 
+    result: null, 
     showModal: null, 
     errorMessage: null, errorDescription: null, errorReason: null, errorRecoverySuggestion: null });
 }
@@ -51,7 +81,7 @@ export const request = (state, action) => {
 // success to fetch events
 export const success = (state, action) => {
   const { result } = action;
-  _log('At EventRedux: success action ' + action + ' state' + state);
+  _log('At QuizRedux: success action ' + action + ' state' + state);
   return state.merge({ 
     fetching: false,
     result,
@@ -62,7 +92,7 @@ export const success = (state, action) => {
 // failed to fetch events
 export const failure = (state, action) => {
   const { errorMessage } = action;
-  _log('At EventRedux: failure action ' + action + ' state' + state);
+  _log('At QuizRedux: failure action ' + action + ' state' + state);
   const errorReason = errorMessage.userInfo.NSLocalizedFailureReason;
   const errorDescription = errorMessage.userInfo.NSLocalizedDescription;
   const errorRecoverySuggestion = errorMessage.userInfo.NSLocalizedRecoverySuggestion;
@@ -78,15 +108,17 @@ export const failure = (state, action) => {
 
 // toggle Modal
 export const toggleModal = (state, action) => {
-  _log('At EventRedux: toggleModal action ' + action + ' state' + state);
+  _log('At LoginRedux: toggleModal action ' + action + ' state' + state);
   return state.merge({ showModal: !state.showModal });
 }
 
 /* ------------- Hookup Reducers To Types ------------- */
 
 export const reducer = createReducer(INITIAL_STATE, {
-  [Types.FETCH_EVENT_REQUEST]: request,
-  [Types.FETCH_EVENT_SUCCESS]: success,
-  [Types.FETCH_EVENT_FAILURE]: failure,
-  [Types.TOGGLE_MODAL_QUIZ]: toggleModal
+  [Types.START_QUIZ]: startQuiz,
+  [Types.PUSH_ANSWER]: pushAnswer,
+  [Types.SUBMIT_ANSWERS_REQUEST]: request,
+  [Types.SUBMIT_ANSWERS_SUCCESS]: success,
+  [Types.SUBMIT_ANSWERS_FAILURE]: failure,
+  [Types.TOGGLE_MODAL]: toggleModal
 })

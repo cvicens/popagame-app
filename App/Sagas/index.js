@@ -9,14 +9,16 @@ import { StartupTypes } from '../Redux/StartupRedux'
 import { InitTypes }    from '../Redux/InitRedux'
 import { LoginTypes }   from '../Redux/LoginRedux'
 import { EventTypes }   from '../Redux/EventRedux'
+import { QuizTypes }   from '../Redux/QuizRedux'
 import { GithubTypes }  from '../Redux/GithubRedux'
 
 /* ------------- Sagas ------------- */
 
 import { startup } from './StartupSagas'
 import { init }    from './InitSagas'
-import { fetchEvent }    from './EventSagas'
 import { authenticate }   from './LoginSagas'
+import { fetchEvent }    from './EventSagas'
+import { submitAnswers }   from './QuizSagas'
 
 import { getUserAvatar } from './GithubSagas'
 
@@ -34,6 +36,7 @@ export default function * root () {
     takeLatest(InitTypes.INIT_REQUEST, init),
     takeLatest(LoginTypes.AUTHENTICATE_REQUEST, authenticate),
     takeLatest(EventTypes.FETCH_EVENT_REQUEST, fetchEvent),
+    takeLatest(QuizTypes.SUBMIT_ANSWERS_REQUEST, submitAnswers),
 
     // some sagas receive extra parameters in addition to an action
     takeLatest(GithubTypes.USER_REQUEST, getUserAvatar, api)

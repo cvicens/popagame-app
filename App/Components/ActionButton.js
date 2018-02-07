@@ -12,7 +12,8 @@ export default class ActionButton extends Component {
     children: PropTypes.string,
     navigator: PropTypes.object,
     buttonStyle: PropTypes.any,
-    textStyle: PropTypes.any
+    textStyle: PropTypes.any,
+    disabled: PropTypes.bool
   }
 
   getText () {
@@ -21,9 +22,17 @@ export default class ActionButton extends Component {
   }
 
   render () {
+    const disabled = this.props.disabled === true;
+    if (disabled) {
+      return (
+        <TouchableOpacity disabled={disabled} style={[styles.button, this.props.buttonStyle]} onPress={this.props.onPress}>
+          <Text style={[styles.buttonText, this.props.textStyle]}>{this.getText()}</Text>    
+        </TouchableOpacity>
+      )
+    } 
     return (
       <Animatable.View style={{ flexDirection: 'row', alignItems: 'center' }} ref="view" animation="pulse" easing="ease-out" iterationCount="infinite" >
-        <TouchableOpacity style={[styles.button, this.props.buttonStyle]} onPress={this.props.onPress}>
+        <TouchableOpacity disabled={disabled} style={[styles.button, this.props.buttonStyle]} onPress={this.props.onPress}>
           <Text style={[styles.buttonText, this.props.textStyle]}>{this.getText()}</Text>    
         </TouchableOpacity>
       </Animatable.View>

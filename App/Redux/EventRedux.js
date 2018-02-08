@@ -25,6 +25,8 @@ export const INITIAL_STATE = Immutable({
   fetching: null,
   error: null,
   result: null,
+  currentEvent: null,
+  currentQuiz: null,
   country: null,
   city: null,
   showModal: false,
@@ -52,9 +54,13 @@ export const request = (state, action) => {
 export const success = (state, action) => {
   const { result } = action;
   _log('At EventRedux: success action ' + action + ' state' + state);
+  const currentEvent = result.data.length >= 0 ? result.data[0] : null;
+  const currentQuiz = currentEvent != null ? currentEvent.quiz : null;
   return state.merge({ 
     fetching: false,
     result,
+    currentEvent,
+    currentQuiz,
     showModal: false,
     errorMessage: null, errorDescription: null, errorReason: null, errorRecoverySuggestion: null })
 }
@@ -71,6 +77,8 @@ export const failure = (state, action) => {
     contry: null,
     city: null,
     result: null,
+    currentEvent: null,
+    currentQuiz: null,
     selectedEvent: null,
     showModal: null,
     errorMessage, errorDescription, errorReason, errorRecoverySuggestion });

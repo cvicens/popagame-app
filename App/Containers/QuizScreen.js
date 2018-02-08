@@ -1,7 +1,8 @@
 import React, { Component } from 'react'
 import { ScrollView, Text, TextInput, Button, Image, View, KeyboardAvoidingView, TouchableOpacity, TouchableWithoutFeedback } from 'react-native'
 import { Colors, Images } from '../Themes/'
-import ActionButton from '../Components/ActionButton'
+import ChoiceButton from '../Components/ChoiceButton'
+import RoundedButton from '../Components/RoundedButton'
 
 import * as Animatable from 'react-native-animatable'
 
@@ -14,21 +15,42 @@ import QuizActions from '../Redux/QuizRedux'
 // Styles
 import styles from './Styles/QuizScreenStyle'
 
-const COUNTRY = 'SPAIN'; 
-const CITY = 'MADRID'; 
-
-const INSTRUCCIONES = [ 
-  'Popagame es un juego donde ...',
-  'Elige la respuesta...',
-  'Al final del juego podrás...'
-];
-
-const _DEBUG = false;
-
 class EventScreen extends Component {
   componentWillMount () {
-    //this.props.fetchEvent(COUNTRY, CITY);
+    
   }
+
+  renderChoiceButtonsA () {
+    return this.props.questions[this.props.currentQuestionIdx].choices.map((choice, index) => { 
+      return (
+          <View key={'choice-' + index} style={styles.buttonRow}>
+          <RoundedButton
+            onPress={(e) => console.log('choice', choice, 'index', index)}>
+            {choice}
+          </RoundedButton>
+          </View>  
+        )
+      }
+    );
+  }
+
+  renderChoiceButtonsB () {
+    return this.props.questions[this.props.currentQuestionIdx].choices.map((choice, index) => { 
+      return (
+          <View key={'choice-' + index} style={styles.buttonRow}>
+          <ChoiceButton 
+            //buttonStyle={styles.choiceButtonStyle}
+            //textStyle={styles.choiceButtonText}
+            onPress={(e) => console.log('choice', choice, 'index', index)}>
+            {choice}
+            </ChoiceButton>
+          </View>  
+        )
+      }
+    );
+  }
+  
+
 
   renderError () {
     return (
@@ -82,22 +104,35 @@ class EventScreen extends Component {
             </View>
           </View>
 
-          <View style={styles.instructionsSection} >
-            <View style={styles.instructionsHeader} >
-              <Text style={styles.instructionsHeaderText}>
-                {'QUIZ' + this.props.event}
+          <View style={styles.questionSection} >
+            <View style={styles.questionOrder}>
+              <Text style={styles.questionOrderText}>
+                {(this.props.currentQuestionIdx + 1) + '/' + this.props.questions.length}
               </Text>
             </View>
 
-           
+            <View style={styles.question}>
+              <Text style={styles.questionText}>
+                {this.props.questions[this.props.currentQuestionIdx].question}
+              </Text>
+            </View> 
+          </View>
 
-            <View style={styles.buttonRow}>
-              <ActionButton buttonStyle={styles.startButtonStyle} textStyle={styles.startButtonText}
-                onPress={(e) => this.props.log()}>
-              {'COMENZAR'}
-              </ActionButton>
+          <View style={styles.detailsSection} >
+            <View style={styles.questionImage}>
+              <Image 
+                source={Images.leroyLogo} 
+                style={ {flex: 1, width: null, height: null, resizeMode: 'contain'} } />
             </View>
 
+            <View style={styles.quizStatus}>
+              <Text style={styles.ranking}>{21}</Text>
+              <Text style={styles.timer}>{3}</Text>
+            </View> 
+          </View>
+
+          <View style={styles.choicesSection} >
+            {this.renderChoiceButtonsB()}
           </View>
 
         </ScrollView>
@@ -109,15 +144,16 @@ class EventScreen extends Component {
 const mapStateToProps = (state) => {
   return {
     userGivenName: state.login.result ? state.login.result.givenName : 'NO_USER',
-    event: state.event.result,
-    answers: state.event.result.answers,
+    startTimestamp: state.quiz.startTimestamp,
+    currentQuestionIdx: state.quiz.currentQuestionIdx,
+    questions: state.quiz.questions
   }
 }
 
 
 // wraps dispatch to create nicer functions to call within our component
 const mapDispatchToProps = (dispatch) => ({
-  //fetchEvent: (country, city) => dispatch(EventActions.fetchEventRequest(country, city)),
+  fetchEvent: (country, city) => dispatch(EventActions.fetchEventRequest(country, city)),
   log: () => console.log('dummy')
 })
 

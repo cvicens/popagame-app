@@ -3,7 +3,10 @@ import { path } from 'ramda'
 import DebugConfig from '../Config/DebugConfig'
 import FixtureAPI from '../Services/FixtureApi'
 
+import { NavigationActions } from 'react-navigation'
+
 import QuizActions from '../Redux/QuizRedux'
+
 
 const RCTFH = require('rct-fh');
 
@@ -14,6 +17,23 @@ function _log(message) {
    if (__DEV__ && console.tron) {
     console.tron.log(message);
   }
+}
+
+export function * startQuiz (action) {
+  const { quiz } = action
+
+   if (__DEV__ && console.tron) {
+      console.tron.display({
+      name: '🔥 QuizSagas 🔥',
+        preview: 'startQuiz',
+        value: {
+          action,
+          quiz
+        }
+      })
+   }
+
+   yield put(NavigationActions.navigate({ routeName: 'QuizScreen' }));
 }
 
 export function * submitAnswers (action) {

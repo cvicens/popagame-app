@@ -10,8 +10,8 @@ function _log(message) {
 /* ------------- Types and Action Creators ------------- */
 
 const { Types, Creators } = createActions({
-  startQuiz: null,
-  pushAnswer: ['answer'],
+  startQuiz: ['quiz'],
+  pushAnswer: ['questionIdx', 'answer'],
   submitAnswersRequest: ['username', 'answers'],
   submitAnswersSuccess: ['result'],
   submitAnswersFailure: ['errorMessage'],
@@ -28,9 +28,10 @@ export const INITIAL_STATE = Immutable({
   error: null,
   result: null,
   startTimestamp: null,
-  currentQuestion: null,
+  currentQuestionIdx: null,
   questions: null,
   answers: null,
+  correctAnswers: 0,
   showModal: false,
   errorMessage: null,
   errorReason: null,
@@ -43,25 +44,37 @@ export const INITIAL_STATE = Immutable({
 // start quiz
 export const startQuiz = (state, action) => {
   _log('At QuizRedux: start');
+  const { quiz } = action;
   _log('At QuizRedux: start action ' + action + ' state' + state);
-  return state.merge({ 
-    currentQuestion: 0,
-    startTimestamp: new Date().toISOString()
+  return state.merge({
+    startTimestamp: new Date().toISOString(),
+    currentQuestionIdx: 0,
+    questions: quiz.questions,
+    answers: []
   });
 }
 
 // next question quiz
 export const pushAnswer = (state, action) => {
   _log('At QuizRedux: start');
-  const { answer } = action;
+  const { questionIdx, answer } = action;
   _log('At QuizRedux: start action ' + action + ' state' + state);
 
+  // If no timestamp, ignore
   if (!state.startTimestamp) {
     return state.merge({});
   }
 
+  // TODO check multi-answer... for now just 1 correct answer
+  if (answer === state.questions[questionIdx].answers[0]) {
+    return state.merge({ 
+      currentQuestionIdx: state.currentQuestionIdx++,
+      correctAnswers: state.correctAnswers++,
+      answers: [...state.answers, answer]
+    });
+  }
   return state.merge({ 
-    currentQuestion: state.currentQuestion++,
+    currentQuestionIdx: state.currentQuestionIdx++,
     answers: [...state.answers, answer]
   });
 }

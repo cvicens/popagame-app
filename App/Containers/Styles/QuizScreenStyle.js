@@ -131,5 +131,71 @@ export default StyleSheet.create({
     fontSize: 15,
     fontWeight: 'bold',
     color: Colors.headerText
+  },
+  questionSection: {
+    flexDirection: 'row',
+    flex: 1,
+    alignItems: 'center',
+    margin: 5
+  },
+  questionOrder: {
+    flex: 1,
+    flexDirection: 'column',
+    alignItems: 'center',
+    //marginRight: 5,
+    //paddingBottom: 5,
+  },
+  questionOrderText: {
+    fontSize: 22,
+    fontWeight: 'bold',
+    color: Colors.coal,
+    //marginTop: Metrics.statusbarHeight,
+  },
+  question: {
+    flex: 5,
+    flexDirection: 'column',
+  },
+  questionText: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    color: Colors.coal,
+    //marginTop: 5,
+  },
+  detailsSection: {
+    flexDirection: 'row',
+    flex: 1,
+    alignItems: 'center',
+    margin: 5
+  },
+  questionImage: {
+    flex: 2,
+    height: 150,
+    flexDirection: 'column',
+    //alignItems: 'center',
+    //marginRight: 5,
+    //paddingBottom: 5,
+  },
+  quizStatus: {
+    alignItems: 'center',
+    flex: 1,
+    flexDirection: 'column',
+  },
+  ranking: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    color: Colors.coal,
+    //marginTop: 5,
+  },
+  timer: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    color: Colors.coal,
+    //marginTop: 5,
+  },
+  choicesSection: {
+    flexDirection: 'column',
+    flex: 1,
+    alignItems: 'center',
+    margin: 5
   }
 })

@@ -10,6 +10,7 @@ import QuizScreen from './QuizScreen'
 
 // Add Actions - replace 'Your' with whatever your reducer is called :)
 import EventActions from '../Redux/EventRedux'
+import QuizActions from '../Redux/QuizRedux'
 
 // Styles
 import styles from './Styles/EventScreenStyle'
@@ -31,8 +32,8 @@ class EventScreen extends Component {
   }
 
   startQuiz () {
-    this.props.startQuiz();
-    this.props.navigation.navigate('QuizScreen');
+    this.props.startQuiz(this.props.currentQuiz);
+    //this.props.navigation.navigate('QuizScreen');
   }
 
   onClose () {
@@ -82,7 +83,7 @@ class EventScreen extends Component {
           <View style={styles.instructionsSection} >
             <View style={styles.instructionsHeader} >
               <Text style={styles.instructionsHeaderText}>
-                {'Instrucciones ' + (typeof this.props.event.data === 'undefined' || this.props.event.data.length <= 0)}
+                {'Instrucciones'}
               </Text>
             </View>
 
@@ -98,7 +99,7 @@ class EventScreen extends Component {
 
             <View style={styles.buttonRow}>
               <ActionButton 
-                disabled={(typeof this.props.event.data === 'undefined' || this.props.event.data.length <= 0)} 
+                disabled={this.props.currentQuiz === null ||typeof this.props.currentQuiz === 'undefined'} 
                 buttonStyle={styles.startButtonStyle}
                 textStyle={styles.startButtonText}
                 onPress={(e) => this.startQuiz()}>
@@ -129,7 +130,8 @@ const mapStateToProps = (state) => {
 
     fetching: state.event.fetching,
     error: state.event.error,
-    event: state.event.result,
+    currentEvent: state.event.currentEvent,
+    currentQuiz: state.event.currentQuiz,
     showModal: state.event.showModal,
     errorMessage: state.event.errorMessage,
     errorReason: state.event.errorReason,
@@ -142,7 +144,7 @@ const mapStateToProps = (state) => {
 // wraps dispatch to create nicer functions to call within our component
 const mapDispatchToProps = (dispatch) => ({
   fetchEvent: (country, city) => dispatch(EventActions.fetchEventRequest(country, city)),
-  startQuiz: () => dispatch(EventActions.toggleModalQuiz()),
+  startQuiz: (quiz) => dispatch(QuizActions.startQuiz(quiz)),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(EventScreen)

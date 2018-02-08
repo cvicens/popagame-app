@@ -18,7 +18,7 @@ import { startup } from './StartupSagas'
 import { init }    from './InitSagas'
 import { authenticate }   from './LoginSagas'
 import { fetchEvent }    from './EventSagas'
-import { submitAnswers, startQuiz }   from './QuizSagas'
+import { submitAnswers, startQuiz, stopQuiz }   from './QuizSagas'
 
 import { getUserAvatar } from './GithubSagas'
 
@@ -34,10 +34,14 @@ export default function * root () {
     takeLatest(StartupTypes.STARTUP, startup),
     
     takeLatest(InitTypes.INIT_REQUEST, init),
+    
     takeLatest(LoginTypes.AUTHENTICATE_REQUEST, authenticate),
+    
     takeLatest(EventTypes.FETCH_EVENT_REQUEST, fetchEvent),
+
     takeLatest(QuizTypes.SUBMIT_ANSWERS_REQUEST, submitAnswers),
     takeLatest(QuizTypes.START_QUIZ, startQuiz),
+    takeLatest(QuizTypes.STOP_QUIZ, stopQuiz),
 
     // some sagas receive extra parameters in addition to an action
     takeLatest(GithubTypes.USER_REQUEST, getUserAvatar, api)

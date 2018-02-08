@@ -20,6 +20,12 @@ class EventScreen extends Component {
     
   }
 
+  componentWillReceiveProps (nextProps) {
+    if (!this.props.quizFinished && nextProps.quizFinished) {
+      this.props.stopQuiz();
+    }
+  }
+
   pushAnswer (questionIdx, answer) {
     this.props.pushAnswer(questionIdx, answer);
   }
@@ -38,8 +44,6 @@ class EventScreen extends Component {
     );
   }
   
-
-
   renderError () {
     return (
       <Text style={styles.sectionText}>
@@ -109,12 +113,12 @@ class EventScreen extends Component {
           <View style={styles.detailsSection} >
             <View style={styles.questionImage}>
               <Image 
-                source={Images.leroyLogo} 
+                source={{uri: this.props.questions[this.props.currentQuestionIdx].image}} 
                 style={ {flex: 1, width: null, height: null, resizeMode: 'contain'} } />
             </View>
 
             <View style={styles.quizStatus}>
-              <Text style={styles.ranking}>{21}</Text>
+              <Text style={styles.ranking}>{this.props.correctAnswers}</Text>
               <Text style={styles.timer}>{3}</Text>
             </View> 
           </View>
@@ -134,16 +138,16 @@ const mapStateToProps = (state) => {
     userGivenName: state.login.result ? state.login.result.givenName : 'NO_USER',
     startTimestamp: state.quiz.startTimestamp,
     currentQuestionIdx: state.quiz.currentQuestionIdx,
-    questions: state.quiz.questions
+    correctAnswers: state.quiz.correctAnswers,
+    questions: state.quiz.questions,
+    quizFinished: state.quiz.finished
   }
 }
-
 
 // wraps dispatch to create nicer functions to call within our component
 const mapDispatchToProps = (dispatch) => ({
   pushAnswer: (questionIdx, answer) => dispatch(QuizActions.pushAnswer(questionIdx, answer)),
-  log: () => console.log('dummy')
+  stopQuiz: () => dispatch(QuizActions.stopQuiz())
 })
-
 
 export default connect(mapStateToProps, mapDispatchToProps)(EventScreen)

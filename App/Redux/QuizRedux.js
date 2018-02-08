@@ -6,6 +6,7 @@ import Immutable from 'seamless-immutable'
 
 const { Types, Creators } = createActions({
   startQuiz: ['quiz'],
+  stopQuiz: null,
   pushAnswer: ['questionIdx', 'answer'],
   submitAnswersRequest: ['username', 'answers'],
   submitAnswersSuccess: ['result'],
@@ -22,7 +23,9 @@ export const INITIAL_STATE = Immutable({
   fetching: null,
   error: null,
   result: null,
+  finished: false,
   startTimestamp: null,
+  stopTimestamp: null,
   currentQuestionIdx: null,
   questions: null,
   answers: null,
@@ -43,8 +46,17 @@ export const startQuiz = (state, action) => {
   return state.merge({
     startTimestamp: new Date().toISOString(),
     currentQuestionIdx: 0,
+    correctAnswers: 0,
     questions: quiz.questions,
     answers: []
+  });
+}
+
+// stop quiz
+export const stopQuiz = (state, action) => {
+  _log('QuizRedux stopQuiz ', 'stopping', [action, state]);
+  return state.merge({
+    stopTimestamp: new Date().toISOString()
   });
 }
 
@@ -58,18 +70,32 @@ export const pushAnswer = (state, action) => {
     return state.merge({});
   }
 
-  // TODO check multi-answer... for now just 1 correct answer
-  if (answer === state.questions[questionIdx].answers[0]) {
-    return state.merge({ 
-      currentQuestionIdx: state.currentQuestionIdx++,
-      correctAnswers: state.correctAnswers++,
-      answers: [...state.answers, answer]
+  let _state = state;
+  // If quiz not finished, push answer to array
+  if (!_state.finished) {
+    _state = _state.merge({ 
+      answers: [..._state.answers, answer]
     });
+    // If answer is correct increase counter of correct answers
+    if (answer === _state.questions[questionIdx].answers[0]) {
+      // TODO check multi-answer... for now just 1 correct answer
+      _state = _state.merge({ 
+        correctAnswers: _state.correctAnswers + 1,
+      });
+    }
   }
-  return state.merge({ 
-    currentQuestionIdx: state.currentQuestionIdx++,
-    answers: [...state.answers, answer]
+  
+  // if this is the last question set quiz as finished
+  if (state.currentQuestionIdx >= state.questions.length - 1) {
+    _state = _state.merge({finished: true});
+  } 
+
+  // Update current question idx and answers array
+  _state = _state.merge({ 
+    currentQuestionIdx: _state.currentQuestionIdx >=  state.questions.length - 1 ? 0 : _state.currentQuestionIdx + 1
   });
+
+  return _state;
 }
 
 // submit quiz answers request
@@ -122,6 +148,7 @@ export const toggleModal = (state, action) => {
 
 export const reducer = createReducer(INITIAL_STATE, {
   [Types.START_QUIZ]: startQuiz,
+  [Types.STOP_QUIZ]: stopQuiz,
   [Types.PUSH_ANSWER]: pushAnswer,
   [Types.SUBMIT_ANSWERS_REQUEST]: request,
   [Types.SUBMIT_ANSWERS_SUCCESS]: success,

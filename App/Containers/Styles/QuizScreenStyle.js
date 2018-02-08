@@ -172,7 +172,7 @@ export default StyleSheet.create({
     height: 150,
     flexDirection: 'column',
     //alignItems: 'center',
-    //marginRight: 5,
+    marginLeft: 20,
     //paddingBottom: 5,
   },
   quizStatus: {

@@ -36,6 +36,23 @@ export function * startQuiz (action) {
    yield put(NavigationActions.navigate({ routeName: 'QuizScreen' }));
 }
 
+export function * stopQuiz (action) {
+  const { quiz } = action
+
+   if (__DEV__ && console.tron) {
+      console.tron.display({
+      name: '🔥 QuizSagas 🔥',
+        preview: 'stopQuiz',
+        value: {
+          action,
+          quiz
+        }
+      })
+   }
+
+   yield put(NavigationActions.navigate({ routeName: 'RankingScreen' }));
+}
+
 export function * submitAnswers (action) {
   const { username, answers } = action
 

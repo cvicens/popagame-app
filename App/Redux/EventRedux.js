@@ -1,11 +1,6 @@
+import _log from '../Services/Logger'
 import { createReducer, createActions } from 'reduxsauce'
 import Immutable from 'seamless-immutable'
-
-function _log(message) {
-   if (__DEV__ && console.tron) {
-    console.tron.log(message);
-  }
-}
 
 /* ------------- Types and Action Creators ------------- */
 

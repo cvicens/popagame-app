@@ -1,11 +1,6 @@
+import _log from '../Services/Logger'
 import { createReducer, createActions } from 'reduxsauce'
 import Immutable from 'seamless-immutable'
-
-function _log(message) {
-   if (__DEV__ && console.tron) {
-    console.tron.log(message);
-  }
-}
 
 /* ------------- Types and Action Creators ------------- */
 
@@ -43,9 +38,8 @@ export const INITIAL_STATE = Immutable({
 
 // start quiz
 export const startQuiz = (state, action) => {
-  _log('At QuizRedux: start');
   const { quiz } = action;
-  _log('At QuizRedux: start action ' + action + ' state' + state);
+  _log('QuizRedux startQuiz ', 'quiz', [action, state]);
   return state.merge({
     startTimestamp: new Date().toISOString(),
     currentQuestionIdx: 0,
@@ -56,9 +50,8 @@ export const startQuiz = (state, action) => {
 
 // next question quiz
 export const pushAnswer = (state, action) => {
-  _log('At QuizRedux: start');
   const { questionIdx, answer } = action;
-  _log('At QuizRedux: start action ' + action + ' state' + state);
+  _log('QuizRedux', 'pushAnswer ' + questionIdx + ':' + answer, action);
 
   // If no timestamp, ignore
   if (!state.startTimestamp) {

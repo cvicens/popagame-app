@@ -20,28 +20,16 @@ class EventScreen extends Component {
     
   }
 
-  renderChoiceButtonsA () {
-    return this.props.questions[this.props.currentQuestionIdx].choices.map((choice, index) => { 
-      return (
-          <View key={'choice-' + index} style={styles.buttonRow}>
-          <RoundedButton
-            onPress={(e) => console.log('choice', choice, 'index', index)}>
-            {choice}
-          </RoundedButton>
-          </View>  
-        )
-      }
-    );
+  pushAnswer (questionIdx, answer) {
+    this.props.pushAnswer(questionIdx, answer);
   }
 
-  renderChoiceButtonsB () {
+  renderChoiceButtons () {
     return this.props.questions[this.props.currentQuestionIdx].choices.map((choice, index) => { 
       return (
           <View key={'choice-' + index} style={styles.buttonRow}>
           <ChoiceButton 
-            //buttonStyle={styles.choiceButtonStyle}
-            //textStyle={styles.choiceButtonText}
-            onPress={(e) => console.log('choice', choice, 'index', index)}>
+            onPress={(e) => this.pushAnswer(this.props.currentQuestionIdx, index)}>
             {choice}
             </ChoiceButton>
           </View>  
@@ -132,7 +120,7 @@ class EventScreen extends Component {
           </View>
 
           <View style={styles.choicesSection} >
-            {this.renderChoiceButtonsB()}
+            {this.renderChoiceButtons()}
           </View>
 
         </ScrollView>
@@ -153,7 +141,7 @@ const mapStateToProps = (state) => {
 
 // wraps dispatch to create nicer functions to call within our component
 const mapDispatchToProps = (dispatch) => ({
-  fetchEvent: (country, city) => dispatch(EventActions.fetchEventRequest(country, city)),
+  pushAnswer: (questionIdx, answer) => dispatch(QuizActions.pushAnswer(questionIdx, answer)),
   log: () => console.log('dummy')
 })
 

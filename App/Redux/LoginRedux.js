@@ -1,11 +1,6 @@
+import _log from '../Services/Logger'
 import { createReducer, createActions } from 'reduxsauce'
 import Immutable from 'seamless-immutable'
-
-function _log(message) {
-   if (__DEV__ && console.tron) {
-    console.tron.log(message);
-  }
-}
 
 /* ------------- Types and Action Creators ------------- */
 
@@ -55,7 +50,7 @@ export const updatePassword = (state, action) => {
 // authentication request
 export const request = (state, action) => {
   const { username, password } = action;
-  _log('At LoginRedux: request ', JSON.stringify(username), '/', JSON.stringify(password));
+  _log('LoginRedux', 'request ' + JSON.stringify(username));
   return state.merge({ 
     fetching: true, 
     result: [], 

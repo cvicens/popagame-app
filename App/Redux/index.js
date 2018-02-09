@@ -13,6 +13,7 @@ export const reducers = combineReducers({
   login:   require('./LoginRedux').reducer,
   event:   require('./EventRedux').reducer,
   quiz:   require('./QuizRedux').reducer,
+  ranking:   require('./RankingRedux').reducer,
 })
 
 export default () => {

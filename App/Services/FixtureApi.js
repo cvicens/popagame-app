@@ -28,5 +28,13 @@ export default {
         data: require('../Fixtures/events.json')
       });
     });
+  },
+  fetchRanking: (eventId) => {
+    return new Promise((resolve, reject) => {
+      resolve ({
+        ok: true,
+        data: require('../Fixtures/ranking.json')
+      });
+    });
   }
 }

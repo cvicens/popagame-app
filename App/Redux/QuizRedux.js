@@ -133,7 +133,6 @@ export const failure = (state, action) => {
     contry: null,
     city: null,
     result: null,
-    selectedEvent: null,
     showModal: null,
     errorMessage, errorDescription, errorReason, errorRecoverySuggestion });
 }

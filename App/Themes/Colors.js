@@ -1,5 +1,6 @@
 const colors = {
   leroy: '#6bbc36',
+  leroyLightGreen: '#d4ebc3',
   leroyBlue: '#6ebceb',
   background: '#1F0808',
   white: '#FFFFFF',

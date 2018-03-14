@@ -22,6 +22,10 @@ export const INITIAL_STATE = Immutable({
   fetching: null,
   error: null,
   result: null,
+  userId: null,
+  firstName: null,
+  lastName: null,
+  givenName: null,
   username: null,
   password: null,
   showModal: false,
@@ -53,7 +57,9 @@ export const request = (state, action) => {
   _log('LoginRedux', 'request ' + JSON.stringify(username));
   return state.merge({ 
     fetching: true, 
-    result: [], 
+    result: [],
+    userId: null,
+    firstName: null, lastName: null, givenName: null,
     username, password, 
     error: false, errorMessage: null });
 }
@@ -62,9 +68,15 @@ export const request = (state, action) => {
 export const success = (state, action) => {
   _log('At LoginRedux: success');
   const { result } = action;
+  const userId = result.userId;
+  const firstName = result.firstName;
+  const lastName = result.lastName;
+  const givenName = result.givenName;
   return state.merge({ 
     fetching: false, error: false, 
     result,
+    userId,
+    firstName, lastName, givenName,
     showModal: true,
     errorMessage: null, errorDescription: null, errorReason: null, errorRecoverySuggestion: null });
 }
@@ -79,6 +91,8 @@ export const failure = (state, action) => {
   return state.merge({ 
     fetching: false, error: true, 
     result: null,
+    userId: null,
+    firstName: null, lastName: null, givenName: null,
     username: null, password: null,
     errorMessage, errorDescription, errorReason, errorRecoverySuggestion });
 }

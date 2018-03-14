@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { ScrollView, Text, TextInput, Button, Image, View, KeyboardAvoidingView, TouchableOpacity, TouchableWithoutFeedback } from 'react-native'
+import { ScrollView, Text, TextInput, Button, Image, View, ActivityIndicator, KeyboardAvoidingView, TouchableOpacity, TouchableWithoutFeedback } from 'react-native'
 import { Colors, Images } from '../Themes/'
 import ChoiceButton from '../Components/ChoiceButton'
 import RoundedButton from '../Components/RoundedButton'
@@ -22,12 +22,15 @@ class EventScreen extends Component {
 
   componentWillReceiveProps (nextProps) {
     if (!this.props.quizFinished && nextProps.quizFinished) {
-      this.props.stopQuiz();
+      this.props.stopQuiz(this.props.username, this.props.eventId);
+      //this.props.submitAnswers(this.props.username, this.props.quizId, this.props.answers);
     }
   }
 
   pushAnswer (questionIdx, answer) {
-    this.props.pushAnswer(questionIdx, answer);
+    this.props.pushAnswer(this.props.username, 
+      this.props.userId, this.props.firstName, this.props.lastName, 
+      this.props.eventId, questionIdx, answer);
   }
 
   renderChoiceButtons () {
@@ -62,6 +65,16 @@ class EventScreen extends Component {
 
   render () {
     console.log('🎥 QuizScreen render ', this.props, JSON.stringify(new Date()), '🎬');
+
+    if (this.props.fetching) {
+      return (
+        <View style={[styles.activityContainer, styles.horizontal]}>
+          
+          <ActivityIndicator size="large" color="#6eba40" />
+          
+        </View>
+        )
+    }
 
     const editable = !this.props.fetching;
     const textInputStyle = editable ? styles.textInput : styles.textInputReadonly;
@@ -135,7 +148,12 @@ class EventScreen extends Component {
 
 const mapStateToProps = (state) => {
   return {
-    userGivenName: state.login.result ? state.login.result.givenName : 'NO_USER',
+    userGivenName: state.login.givenName ? state.login.givenName : 'NO_USER',
+    username: state.login.username ? state.login.username : 'NO_USER',
+    userId: state.login.userId ? state.login.userId : 'NO_USER',
+    firstName: state.login.firstName ? state.login.firstName : 'NO_USER',
+    lastName: state.login.lastName ? state.login.lastName : 'NO_USER',
+    eventId: state.event.currentEvent.id,
     startTimestamp: state.quiz.startTimestamp,
     currentQuestionIdx: state.quiz.currentQuestionIdx,
     correctAnswers: state.quiz.correctAnswers,
@@ -146,8 +164,9 @@ const mapStateToProps = (state) => {
 
 // wraps dispatch to create nicer functions to call within our component
 const mapDispatchToProps = (dispatch) => ({
-  pushAnswer: (questionIdx, answer) => dispatch(QuizActions.pushAnswer(questionIdx, answer)),
-  stopQuiz: () => dispatch(QuizActions.stopQuiz())
+  pushAnswer: (username, userId, firstName, lastName, eventId, questionIdx, answer) => dispatch(QuizActions.pushAnswer(username, userId, firstName, lastName, eventId, questionIdx, answer)),
+  stopQuiz: (username, eventId) => dispatch(QuizActions.stopQuiz(username, eventId)),
+  //submitAnswers: (username, eventId, answers) => dispatch(QuizActions.submitAnswers(username, eventId, answers)),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(EventScreen)

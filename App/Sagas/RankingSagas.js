@@ -21,12 +21,13 @@ export function * fetchRanking (action) {
 
    try {
     var options = {
-        "path": "/ranking/" + eventId,
+        "path": "/ranking/new/" + eventId,
         "method": "GET",
         "contentType": "application/json",
         "timeout": 25000 // timeout value specified in milliseconds. Default: 60000 (60s)
       }
-    const result = DebugConfig.useFixtures ? yield call(FixtureApi.fetchRanking, eventId) : yield call(RCTFH.cloud, options);
+    //const result = DebugConfig.useFixtures ? yield call(FixtureApi.fetchRanking, eventId) : yield call(RCTFH.cloud, options);
+    const result = yield call(RCTFH.cloud, options);
     _log('fetch result', result);
 
     if (result) {

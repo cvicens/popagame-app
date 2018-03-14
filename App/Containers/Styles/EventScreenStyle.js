@@ -7,6 +7,15 @@ export default StyleSheet.create({
     paddingBottom: Metrics.baseMargin,
     
   },
+  activityContainer: {
+    flex: 1,
+    justifyContent: 'center'
+  },
+  horizontal: {
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    padding: 10
+  },
   instructionsSection: {
     padding: 10
   },

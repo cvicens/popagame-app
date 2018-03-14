@@ -22,8 +22,8 @@ import { getUserAvatar } from './GithubSagas'
 
 import { init }    from './InitSagas'
 import { authenticate }   from './LoginSagas'
-import { fetchEvent }    from './EventSagas'
-import { submitAnswers, startQuiz, stopQuiz }   from './QuizSagas'
+import { fetchEvent, checkQuizStatus }    from './EventSagas'
+import { submitAnswer, startQuiz, stopQuiz }   from './QuizSagas'
 import { fetchRanking }   from './RankingSagas'
 
 // The API we use is only used from Sagas, so we create it here and pass along
@@ -42,8 +42,10 @@ export default function * root () {
     takeLatest(LoginTypes.AUTHENTICATE_REQUEST, authenticate),
     
     takeLatest(EventTypes.FETCH_EVENT_REQUEST, fetchEvent),
+    takeLatest(EventTypes.FETCH_EVENT_SUCCESS, checkQuizStatus),
 
-    takeLatest(QuizTypes.SUBMIT_ANSWERS_REQUEST, submitAnswers),
+    takeLatest(QuizTypes.PUSH_ANSWER, submitAnswer),
+    //takeLatest(QuizTypes.SUBMIT_ANSWERS_REQUEST, submitAnswers),
     takeLatest(QuizTypes.START_QUIZ, startQuiz),
     takeLatest(QuizTypes.STOP_QUIZ, stopQuiz),
 

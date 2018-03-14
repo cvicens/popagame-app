@@ -39,8 +39,8 @@ class EventScreen extends Component {
           <View style={styles.rankingColTwo}>
             <View style={styles.userImage}>
               <Image 
-                source={{uri: row.image}}
-                //source={Images.leroyLogo} 
+                //source={{uri: row.image}}
+                source={Images.leroyLogo} 
                 style={ {flex: 1, width: null, height: null, resizeMode: 'contain'} } />
             </View>
           </View>
@@ -48,10 +48,10 @@ class EventScreen extends Component {
           <View style={styles.rankingColThree}>
             <View style={styles.rankingColThreeContainer}>
               <Text style={styles.rankingColThreeTitleText}>
-                {row.user}
+                {row.firstName + ' ' + row.lastName}
               </Text>
               <Text style={styles.rankingColThreeSubtitleText}>
-                {row.userId}
+                {row.username}
               </Text>
             </View>
           </View>
@@ -71,7 +71,8 @@ class EventScreen extends Component {
     if (this.props.screenProps && this.props.screenProps.toggle) {
       this.props.screenProps.toggle();
     } else {
-      this.props.navigation.goBack();
+      //this.props.navigation.goBack();
+      this.props.navigation.navigate('LoginScreen');
     }
   }
 

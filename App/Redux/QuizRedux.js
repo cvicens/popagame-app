@@ -5,12 +5,15 @@ import Immutable from 'seamless-immutable'
 /* ------------- Types and Action Creators ------------- */
 
 const { Types, Creators } = createActions({
-  startQuiz: ['quiz'],
-  stopQuiz: null,
-  pushAnswer: ['questionIdx', 'answer'],
-  submitAnswersRequest: ['username', 'answers'],
-  submitAnswersSuccess: ['result'],
-  submitAnswersFailure: ['errorMessage'],
+  startQuiz: ['quiz', 'username', 'eventId'],
+  stopQuiz: ['username', 'eventId'],
+  pushAnswer: ['username',  'userId', 'firstName', 'lastName', 'eventId', 'questionIdx', 'answer'],
+  submitQuizStatusRequest: ['username', 'eventId'],
+  submitQuizStatusSuccess: ['result'],
+  submitQuizStatusFailure: ['errorMessage'],
+  submitAnswerRequest: ['username', 'eventId', 'questionIdx', 'answer'],
+  submitAnswerSuccess: ['result'],
+  submitAnswerFailure: ['errorMessage'],
   toggleModal: null
 })
 
@@ -62,7 +65,7 @@ export const stopQuiz = (state, action) => {
 
 // next question quiz
 export const pushAnswer = (state, action) => {
-  const { questionIdx, answer } = action;
+  const { username, userId, firstName, lastName, eventId, questionIdx, answer } = action;
   _log('QuizRedux', 'pushAnswer ' + questionIdx + ':' + answer, action);
 
   // If no timestamp, ignore
@@ -137,6 +140,37 @@ export const failure = (state, action) => {
     errorMessage, errorDescription, errorReason, errorRecoverySuggestion });
 }
 
+// submit quiz answers request
+export const submitQuizStatusRequest = (state, action) => {
+  _log('At QuizRedux: submitQuizStatusRequest');
+  const { answers } = action;
+  _log('At QuizRedux: submitQuizStatusRequest action ' + action + ' state' + state);
+  return state.merge({ 
+    fetching: true, 
+    errorMessage: null, errorDescription: null, errorReason: null, errorRecoverySuggestion: null });
+}
+
+// success to fetch events
+export const submitQuizStatusSuccess = (state, action) => {
+  const { result } = action;
+  _log('At QuizRedux: submitQuizStatusSuccess action ' + action + ' state' + state);
+  return state.merge({ 
+    fetching: false,
+    errorMessage: null, errorDescription: null, errorReason: null, errorRecoverySuggestion: null })
+}
+
+// failed to fetch events
+export const submitQuizStatusFailure = (state, action) => {
+  const { errorMessage } = action;
+  _log('At QuizRedux: submitQuizStatusFailure action ' + action + ' state' + state);
+  const errorReason = errorMessage.userInfo.NSLocalizedFailureReason;
+  const errorDescription = errorMessage.userInfo.NSLocalizedDescription;
+  const errorRecoverySuggestion = errorMessage.userInfo.NSLocalizedRecoverySuggestion;
+  return state.merge({ 
+    fetching: false, error: true, 
+    errorMessage, errorDescription, errorReason, errorRecoverySuggestion });
+}
+
 // toggle Modal
 export const toggleModal = (state, action) => {
   _log('At LoginRedux: toggleModal action ' + action + ' state' + state);
@@ -149,8 +183,11 @@ export const reducer = createReducer(INITIAL_STATE, {
   [Types.START_QUIZ]: startQuiz,
   [Types.STOP_QUIZ]: stopQuiz,
   [Types.PUSH_ANSWER]: pushAnswer,
-  [Types.SUBMIT_ANSWERS_REQUEST]: request,
-  [Types.SUBMIT_ANSWERS_SUCCESS]: success,
-  [Types.SUBMIT_ANSWERS_FAILURE]: failure,
+  [Types.SUBMIT_QUIZ_STATUS_REQUEST]: submitQuizStatusRequest,
+  [Types.SUBMIT_QUIZ_STATUS_SUCCESS]: submitQuizStatusSuccess,
+  [Types.SUBMIT_QUIZ_STATUS_FAILURE]: submitQuizStatusFailure,
+  [Types.SUBMIT_ANSWER_REQUEST]: request,
+  [Types.SUBMIT_ANSWER_SUCCESS]: success,
+  [Types.SUBMIT_ANSWER_FAILURE]: failure,
   [Types.TOGGLE_MODAL]: toggleModal
 })

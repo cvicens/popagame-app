@@ -47,6 +47,7 @@ export const startQuiz = (state, action) => {
   const { quiz } = action;
   _log('QuizRedux startQuiz ', 'quiz', [action, state]);
   return state.merge({
+    finished: false,
     startTimestamp: new Date().toISOString(),
     currentQuestionIdx: 0,
     correctAnswers: 0,

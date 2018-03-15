@@ -4,8 +4,10 @@ import DebugConfig from '../Config/DebugConfig'
 import FixtureAPI from '../Services/FixtureApi'
 
 import EventActions from '../Redux/EventRedux'
+import QuizActions from '../Redux/QuizRedux'
 
 import { NavigationActions } from 'react-navigation'
+import QuizScreen from '../Containers/QuizScreen';
 
 const RCTFH = require('rct-fh');
 
@@ -118,5 +120,5 @@ export function * checkQuizStatus (action) {
       index: 0,
       actions: [NavigationActions.navigate({ routeName: 'RankingScreen' })]
     }));
-  } 
+  }
 }

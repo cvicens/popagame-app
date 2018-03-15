@@ -45,7 +45,7 @@ class EventScreen extends Component {
   }
 
   render () {
-    console.log('🎥 EventScreen render ', this.props, JSON.stringify(new Date()), '🎬');
+    //console.log('🎥 EventScreen render ', this.props, JSON.stringify(new Date()), '🎬');
 
     const editable = !this.props.fetching;
     const textInputStyle = editable ? styles.textInput : styles.textInputReadonly;
@@ -76,11 +76,11 @@ class EventScreen extends Component {
         
         <TouchableOpacity onPress={() => this.onClose()} style={{
           position: 'absolute',
-          paddingTop: 30,
-          paddingHorizontal: 10,
+          paddingTop: 20,
+          paddingHorizontal: 5,
           zIndex: 10
         }}>
-          <Image source={Images.closeButton} />
+          <Image source={Images.backButton} />
         </TouchableOpacity>
 
         <ScrollView style={styles.container}>

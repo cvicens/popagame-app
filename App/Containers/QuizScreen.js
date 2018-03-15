@@ -6,6 +6,8 @@ import RoundedButton from '../Components/RoundedButton'
 
 import * as Animatable from 'react-native-animatable'
 
+import ActionButton from '../Components/ActionButton'
+
 import { connect } from 'react-redux'
 
 // Add Actions - replace 'Your' with whatever your reducer is called :)
@@ -14,6 +16,12 @@ import QuizActions from '../Redux/QuizRedux'
 
 // Styles
 import styles from './Styles/QuizScreenStyle'
+
+const INSTRUCCIONES = [ 
+  'Muchas gracias por paticipar...',
+  'Ahora puede ver el estado del ranking...',
+  'El juego ha terminado, por favor pulse terminar.'
+];
 
 class EventScreen extends Component {
   componentWillMount () {
@@ -64,7 +72,7 @@ class EventScreen extends Component {
   }
 
   render () {
-    console.log('🎥 QuizScreen render ', this.props, JSON.stringify(new Date()), '🎬');
+    //console.log('🎥 QuizScreen render ', this.props, JSON.stringify(new Date()), '🎬');
 
     if (this.props.fetching) {
       return (
@@ -72,6 +80,72 @@ class EventScreen extends Component {
           
           <ActivityIndicator size="large" color="#6eba40" />
           
+        </View>
+        )
+    }
+
+    if (this.props.quizFinished) {
+      return (
+        <View style={styles.mainContainerSolid}>
+        
+        <TouchableOpacity onPress={() => this.onClose()} style={{
+          position: 'absolute',
+          paddingTop: 10,
+          paddingHorizontal: 5,
+          zIndex: 10
+        }}>
+          <Image source={Images.backButton} />
+        </TouchableOpacity>
+
+        <ScrollView style={styles.container}>
+          
+          <View style={styles.bannerContainer}>
+            <View style={styles.banner}>
+              <View style={styles.bannerText}>
+                <Text style={styles.bannerTitle}>{this.props.userGivenName}</Text>
+                <Text style={styles.bannerSubtitle}>{'¡El juego ha terminado!'}</Text>
+              </View>
+              
+
+              <View style={styles.bannerImage}>
+                <Image 
+                  source={Images.leroyLogo} 
+                  style={ {flex: 1, width: null, height: null, resizeMode: 'contain'} } />
+              </View>
+            </View>
+          </View>
+
+          <View style={styles.instructionsSection} >
+            <View style={styles.instructionsHeader} >
+              <Text style={styles.instructionsHeaderText}>
+                {'Instrucciones'}
+              </Text>
+            </View>
+
+            <Text style={styles.instructionsText}>
+              {INSTRUCCIONES[0]}
+            </Text>
+            <Text style={styles.instructionsText}>
+              {INSTRUCCIONES[1]}
+            </Text>
+            <Text style={styles.instructionsText}>
+              {INSTRUCCIONES[2]}
+            </Text>
+
+            <View style={styles.buttonRow}>
+              <ActionButton 
+                disabled={this.props.currentQuiz === null ||typeof this.props.currentQuiz === 'undefined'} 
+                buttonStyle={styles.startButtonStyle}
+                textStyle={styles.startButtonText}
+                onPress={(e) => this.startQuiz()}>
+              {'VER RANKING'}
+              </ActionButton>
+            </View>
+
+          </View>
+
+        </ScrollView>
+
         </View>
         )
     }
@@ -84,11 +158,11 @@ class EventScreen extends Component {
         
         <TouchableOpacity onPress={() => this.onClose()} style={{
           position: 'absolute',
-          paddingTop: 30,
-          paddingHorizontal: 10,
+          paddingTop: 20,
+          paddingHorizontal: 5,
           zIndex: 10
         }}>
-          <Image source={Images.closeButton} />
+          <Image source={Images.backButton} />
         </TouchableOpacity>
 
         <ScrollView style={styles.container}>

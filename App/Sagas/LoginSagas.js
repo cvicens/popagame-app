@@ -39,11 +39,11 @@ export function * authenticate (action) {
     //if (result && typeof result.sessionToken !== 'undefined') {
     if (result) {
       _log('about to yield success')
-      //yield put(NavigationActions.navigate({ routeName: 'EventScreen' }))
-      yield put(NavigationActions.reset({
+      yield put(NavigationActions.navigate({ routeName: 'EventScreen' }))
+      /*yield put(NavigationActions.reset({
         index: 0,
         actions: [NavigationActions.navigate({ routeName: 'EventScreen' })]
-      }));
+      }));*/
       yield put(LoginActions.authenticateSuccess(result));
     } else {
       _log('about to yield failure')
